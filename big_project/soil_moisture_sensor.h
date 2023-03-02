@@ -2,6 +2,8 @@
 #ifdef __cplusplus 
  extern "C" {
 #endif
+
+#include<Arduino.h>
 //Start coding here
 
 //Init Sensor -> void
