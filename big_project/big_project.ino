@@ -1,5 +1,6 @@
-#define DHT22_PIN A0
-#define LIGHT_SENSOR_PIN A1
+#define "dht22.h"
+#define "light_sensor.h"
+#define "soil_moisture_sensor.h"
 
 void setup() {
   // put your setup code here, to run once:
