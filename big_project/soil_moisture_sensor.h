@@ -10,7 +10,7 @@ enum state {
 	moist,
 	wet}; // define the different states of soil moisture
 int readMoisture() {}
-state compareMoisture() {}
+state compareMoisture();
 
 //Init Sensor -> void
 

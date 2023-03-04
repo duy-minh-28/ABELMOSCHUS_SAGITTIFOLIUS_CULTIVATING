@@ -10,7 +10,7 @@ enum State {
 };
 
 float checkTemp() {};
-State compareTemp(float x) {};
+State compareTemp(float x);
 
 //Init Sensor -> void
 

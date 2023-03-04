@@ -4,7 +4,7 @@
 #endif
 //Start coding here
 float checkLight() {}
-boolean isDark(float luxValue) {}
+boolean isDark(float luxValue);
 
 //Init Sensor -> void
 
