@@ -1,10 +1,6 @@
 int soilPin = A0;     // the analog pin the soil moisture sensor is connected to
 int soilMoistureValue = 0; // variable to store the soil moisture level
 
-enum state {
-	dry,
-	moist,
-	wet}; // define the different states of soil moisture
 
 int readMoisture() {
   soilMoistureValue = analogRead(soilPin); // read the value from the soil moisture sensor

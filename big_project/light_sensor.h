@@ -3,6 +3,8 @@
  extern "C" {
 #endif
 //Start coding here
+float checkLight() {}
+boolean isDark(float luxValue) {}
 
 //Init Sensor -> void
 

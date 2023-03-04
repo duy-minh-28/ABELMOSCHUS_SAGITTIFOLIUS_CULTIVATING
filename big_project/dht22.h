@@ -3,6 +3,14 @@
  extern "C" {
 #endif
 //Start coding here
+enum State {
+  LOWER,
+  ACCEPT,
+  HIGHER
+};
+
+float checkTemp() {};
+State compareTemp(float x) {};
 
 //Init Sensor -> void
 
