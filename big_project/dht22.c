@@ -6,11 +6,9 @@ float checkTemp() {
 
 State compareTemp(float x) {
   if (x < 20) {
-    Serial.println("WARNING: LOW TEMPERATURE");
     return LOWER;
   }
   if (x > 30) {
-    Serial.println("WARNING: HIGH TEMPERATURE");
     return HIGHER;
   }
   return ACCEPT;
