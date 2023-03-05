@@ -1,22 +1,17 @@
 //Arduino IDE runs in C++ so this need to be defined for it to calls C
-#ifdef __cplusplus 
- extern "C" {
-#endif
-//Start coding here
-enum State {
+
+#include<Arduino.h>
+#include<DHT.h>
+
+#define DHT22_PIN 2
+#define DHTTYPE DHT22 
+
+enum DHT22State {
   LOWER,
   ACCEPT,
   HIGHER
 };
 
-float checkTemp() {};
-State compareTemp(float x);
-
-//Init Sensor -> void
-
-//Read Sensor Value -> int
-
-
-#ifdef __cplusplus
-}
-#endif
+void initDHT22();
+float checkTemp();
+DHT22State compareTemp(float x);

@@ -1,10 +1,13 @@
-// Define the analog input pin used by the sensor
-const int sensorPin = A0;
+#include "light_sensor.h"
 
+
+void initLightSensor(){
+	pinMode(LIGHT_SENSOR_PIN,INPUT);
+}
 // Function to check the light intensity and return a float value
-float check() {
+float checkLight() {
   // Read the analog voltage from the sensor
-  int sensorValue = analogRead(sensorPin);
+  int sensorValue = analogRead(LIGHT_SENSOR_PIN);
   
   // Convert the sensor value to light intensity in lux
   float voltage = sensorValue * (5.0 / 1023.0); // Convert the analog value to voltage
