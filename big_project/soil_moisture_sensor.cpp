@@ -8,8 +8,8 @@ void initSoilMoistureSensor(){
 
 
 int readMoisture() {
-  int dryValueADC = 0;
-  int wetValueADC = 1023;
+  int dryValueADC = 1023;
+  int wetValueADC = 346;
 
   int dryPercent = 0;
   int wetPercent = 100;

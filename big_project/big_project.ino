@@ -40,6 +40,9 @@ void loop() {
   if (isnan(dhtValue)) {
     message += "DHT is not connected/";
   }
+  else {
+    message += ("%d", dhtValue);
+  }
   message += ("%f", lightValue);
   message += "/";
   message += ("%d", soilMoistureValue);
