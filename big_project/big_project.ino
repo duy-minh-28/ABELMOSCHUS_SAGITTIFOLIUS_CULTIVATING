@@ -32,14 +32,24 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
+  //message = tempValue/lightValue/soilMoistureValue/tempCompare/lightCompare/soilMoistureCompare
+  String message = "";
   int soilMoistureValue = readMoisture();
   float lightValue = checkLight();
-  Serial.print("\nSoil Moisture: ");
-  Serial.print(soilMoistureValue);
-  Serial.println("%");
-  Serial.println(soilMoistureMessage(soilMoistureValue));
-  Serial.print("Light: ");
-  Serial.println(lightValue);
-  Serial.println(lightMessage(lightValue));
+  float dhtValue = checkTemp();
+  if (isnan(dhtValue)) {
+    message += "DHT is not connected/";
+  }
+  message += ("%f", lightValue);
+  message += "/";
+  message += ("%d", soilMoistureValue);
+  message += "%";
+  message += "/";
+  message += ("%d", compareTemp(dhtValue));//0 -> NOT CONNECTED
+  message += "/";
+  message += ("%d", isDark(lightValue));
+  message += "/";
+  message += ("%d", compareMoisture(soilMoistureValue));
+  Serial.println(message);
   delay(2000);
 }

@@ -12,10 +12,13 @@ float checkTemp() {
 }
 
 DHT22State compareTemp(float x) {
-  if (x < 20) {
+  if (isnan(x)) {
+    return NOT_CONNECTED;
+  }
+  else if (x < 20) {
     return LOWER;
   }
-  if (x > 30) {
+  else if (x > 30) {
     return HIGHER;
   }
   return ACCEPT;

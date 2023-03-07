@@ -7,6 +7,7 @@
 #define DHTTYPE DHT22 
 
 enum DHT22State {
+  NOT_CONNECTED,
   LOWER,
   ACCEPT,
   HIGHER
