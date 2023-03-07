@@ -48,11 +48,11 @@ void loop() {
   message += ("%d", soilMoistureValue);
   message += "%";
   message += "/";
-  message += ("%d", compareTemp(dhtValue));//0 -> NOT CONNECTED
+  message += ("%d", compareTemp(dhtValue));//0 -> NOT CONNECTED, 1->TOO LOW, 2->ACCEPT, 3-> TOO HIGH
   message += "/";
-  message += ("%d", isDark(lightValue));
+  message += ("%d", isDark(lightValue));//0 -> TOO DARK, 1 -> OK
   message += "/";
-  message += ("%d", compareMoisture(soilMoistureValue));
+  message += ("%d", compareMoisture(soilMoistureValue));//0->TOO DRY, 1->OK, 2->TOO WET
   Serial.println(message);
   delay(2000);
 }
