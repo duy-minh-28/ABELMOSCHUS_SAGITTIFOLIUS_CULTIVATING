@@ -1,83 +1,56 @@
-/*
-  Rui Santos
-  Complete project details at Complete project details at https://RandomNerdTutorials.com/esp8266-nodemcu-http-get-post-arduino/
-
-  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files.
-  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-  Code compatible with ESP8266 Boards Version 3.0.0 or above
-  (see in Tools > Boards > Boards Manager > ESP8266)
-*/
-
 #include <ESP8266WiFi.h>
-#include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
-int sectionID = 10;
+
 const char* ssid = "MINH";
 const char* password = "123456789";
-
-//Your Domain name with URL path or IP address with path
-String ipAddress = "192.168.245.178";
-String serverName = ipAddress + "/insert.php";
-
-// the following variables are unsigned longs because the time, measured in
-// milliseconds, will quickly become a bigger number than can be stored in an int.
-unsigned long lastTime = 0;
-// Timer set to 10 minutes (600000)
-//unsigned long timerDelay = 600000;
-// Set timer to 5 seconds (5000)
-unsigned long timerDelay = 5000;
-
+int sectionID = 9;
 void setup() {
   Serial.begin(115200);
+  delay(10);
+
+  // Connect to WiFi network
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
 
   WiFi.begin(ssid, password);
-  Serial.println("Connecting");
+
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-  Serial.println("");
-  Serial.print("Connected to WiFi network with IP Address: ");
-  Serial.println(WiFi.localIP());
 
-  Serial.println("Timer set to 5 seconds (timerDelay variable), it will take 5 seconds before publishing the first reading.");
+  Serial.println("");
+  Serial.println("WiFi connected");
+
+  // Make GET request
+  Serial.println("Making GET request...");
+
+
 }
 
 void loop() {
-  // Send an HTTP POST request depending on timerDelay
-  if ((millis() - lastTime) > timerDelay) {
-    //Check WiFi connection status
-    if (WiFi.status() == WL_CONNECTED) {
-      WiFiClient client;
-      HTTPClient http;
-
-      String serverPath = serverName + "?sectionID=" + String(sectionID) +
-                          "&inorganicWaste_kg=2.5&organicWaste_kg=10.5";
-      sectionID++;
-      Serial.println(serverPath);
-      // Your Domain name with URL path or IP address with path
-      http.begin(client, serverPath.c_str());
-
-      // Send HTTP GET request
-      int httpResponseCode = http.GET();
-
-      if (httpResponseCode > 0) {
-        Serial.print("HTTP Response code: ");
-        Serial.println(httpResponseCode);
-        String payload = http.getString();
-        Serial.println(payload);
-      }
-      else {
-        Serial.print("Error code: ");
-        Serial.println(httpResponseCode);
-      }
-      // Free resources
-      http.end();
-    }
-    else {
-      Serial.println("WiFi Disconnected");
-    }
-    lastTime = millis();
+  WiFiClient client;
+  const int httpPort = 80;
+  if (!client.connect("192.168.245.178", httpPort)) {
+    Serial.println("Connection failed");
+    return;
   }
+  String data = "GET /insert.php?sectionID="+String(sectionID)+"&organicWaste_kg=12.00&inorganicWaste_kg=12.00 HTTP/1.1\r\n";
+  client.print(data);
+  client.print("Host: 192.168.245.178\r\n");
+  client.print("Connection: close\r\n\r\n");
+
+  Serial.println("Request sent");
+
+  while (client.connected()) {
+    String line = client.readStringUntil('\n');
+    Serial.println(line);
+  }
+
+  Serial.println();
+  Serial.println("Closing connection");
+  sectionID++;
+  delay(5000);
 }
