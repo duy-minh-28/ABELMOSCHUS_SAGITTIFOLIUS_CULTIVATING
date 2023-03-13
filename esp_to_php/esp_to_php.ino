@@ -3,6 +3,7 @@
 
 const char* ssid = "MINH";
 const char* password = "123456789";
+String ipAddress = "192.168.245.178";
 int sectionID = 9;
 void setup() {
   Serial.begin(115200);
@@ -33,13 +34,15 @@ void setup() {
 void loop() {
   WiFiClient client;
   const int httpPort = 80;
-  if (!client.connect("192.168.245.178", httpPort)) {
+  if (!client.connect(ipAddress, httpPort)) {
     Serial.println("Connection failed");
     return;
   }
-  String data = "GET /insert.php?sectionID="+String(sectionID)+"&organicWaste_kg=12.00&inorganicWaste_kg=12.00 HTTP/1.1\r\n";
+  String data = "GET /insert.php?sectionID=" + String(sectionID)
+                + "&organicWaste_kg=12.00&inorganicWaste_kg=12.00 HTTP/1.1\r\n";
   client.print(data);
-  client.print("Host: 192.168.245.178\r\n");
+  String host = "Host: "+ipAddress+"\r\n";
+  client.print(host);
   client.print("Connection: close\r\n\r\n");
 
   Serial.println("Request sent");
