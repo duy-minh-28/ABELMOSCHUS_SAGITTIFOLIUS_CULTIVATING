@@ -1,9 +1,7 @@
 #include "soil_moisture_sensor.h"
 #include "dht22.h"
-#include <SoftwareSerial.h>
 #include "light_sensor.h"
 
-SoftwareSerial espSerial(5, 6);
 
 String soilMoistureMessage(int sensorValue) {
   String message;
@@ -46,7 +44,6 @@ void setup() {
   initSoilMoistureSensor();
   initLightSensor();
   Serial.begin(115200);
-  espSerial.begin(115200);
   delay(2000);
 }
 
@@ -69,12 +66,11 @@ void loop() {
   message += ("%d", soilMoistureValue);
   message += "%";
   message += "/";
-  message += tempMessage(dhtValue);
+  message += isnan(dhtValue)?"DHT is not connected":tempMessage(dhtValue);
   message += "/";
   message += lightMessage(lightValue);
   message += "/";
   message += soilMoistureMessage(soilMoistureMessage);
   Serial.println(message);
-  espSerial.println(message);
   delay(3000);
 }
