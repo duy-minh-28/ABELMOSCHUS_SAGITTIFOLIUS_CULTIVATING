@@ -17,8 +17,8 @@
     </style>
 
     <?php
-    $username = "root";
-    $password = "";
+    $username = "khoa";
+    $password = "123";
     $host = "localhost";
     $connector = mysqli_connect($host, $username, $password, 'iop_db1');
     $result = mysqli_query($connector, "SELECT * FROM sensorvaluetb order by dataID desc limit 1;");
