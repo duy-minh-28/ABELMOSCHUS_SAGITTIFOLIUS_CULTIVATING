@@ -17,12 +17,18 @@
     </style>
 
     <?php
-    $username = "khoa";
-    $password = "123";
+    $username = "root";
+    $password = "";
     $host = "localhost";
     $connector = mysqli_connect($host, $username, $password, 'iop_db1');
     $result = mysqli_query($connector, "SELECT * FROM sensorvaluetb order by dataID desc limit 1;");
     $row = mysqli_fetch_assoc($result); 
+    $temp =  $row['temp_value'];
+    $soil =  $row['soil_moisture_value'];
+    $light = $row['light_value'];
+    if($temp == -999){
+        $temp = "NaN";
+    }
     ?>
 </head>
 
@@ -46,7 +52,9 @@
 
     <div id="id01" class="w3-modal">
         <div class="w3-modal-content w3-card-4 w3-animate-top">
-            <header class="w3-container w3-theme">
+            <?php if($temp <=20 or $temp >=30 or $light < 100 or $soil <=30 ) {                
+                ?>
+            <header class="w3-container w3-red">
                 <span onclick="document.getElementById('id01').style.display = 'none'"
                     class="w3-button w3-display-topright">&times;</span>
                 <h4>Ginseng planting status</h4>
@@ -62,11 +70,33 @@
                     <?php echo $row['soil_moisture_mess']; ?>
                 </p>
             </div>
-            <footer class="w3-container w3-theme">
+            <footer class="w3-container w3-red">
                 <p>By IoT team</p>
             </footer>
+            <?php } else{ ?>
+            <header class="w3-container w3-green">
+                <span onclick="document.getElementById('id01').style.display = 'none'"
+                    class="w3-button w3-display-topright">&times;</span>
+                <h4>Ginseng planting status</h4>
+            </header>
+            <div class="w3-padding">
+                <p>
+                    <?php echo $row['temp_mess']; ?>
+                </p>
+                <p>
+                    <?php echo $row['light_mess']; ?>
+                </p>
+                <p>
+                    <?php echo $row['soil_moisture_mess']; ?>
+                </p>
+            </div>
+            <footer class="w3-container w3-green">
+                <p>By IoT team</p>
+            </footer>
+            <?php } ?>
         </div>
     </div>
+
 
     <script>
         window.addEventListener("load", function () {
@@ -74,7 +104,7 @@
                 function open(envent) {
                     document.getElementById('id01').style.display = "block";
                 },
-                1000)
+                5)
         });
     </script>
 
@@ -95,7 +125,8 @@
                 <h3 style="font-weight: bold; font-size: 18px;">Temperature</h3><br>
                 <i class="bi bi-thermometer-half" style="color: red; font-size:120px"></i>
                 <p style="margin-top: 30px; font-size: 22px;"><span>
-                        <?php echo $row['temp_value']; ?>
+                        <!-- <?php echo $row['temp_value']; ?> -->
+                        <?php echo $temp ?>
                     </span><span class="unit">&deg;C</span></p>
                 <p style="font-weight: bold; font-size: 18px;">Environment Temperature</p>
             </div>
@@ -106,7 +137,8 @@
                 <h3 style="font-weight: bold; font-size: 18px;">Light</h3><br>
                 <i class="bi bi-brightness-high-fill" style="color: orange; font-size:120px"></i>
                 <p style="margin-top: 30px; font-size: 22px;"><span>
-                        <?php echo $row['light_value']; ?>
+                        <!--<?php echo $row['light_value']; ?>-->
+                        <?php echo $light ?>
                     </span><span class="unit">lux</span></p>
                 <p style="font-weight: bold; font-size: 18px;">Light Intensity</p>
             </div>
@@ -117,13 +149,49 @@
                 <h3 style="font-weight: bold; font-size: 18px;">Land</h3><br>
                 <i class="bi bi-moisture" style="color: green; font-size:120px"></i>
                 <p style="margin-top: 23px; font-size: 22px;"><span>
-                        <?php echo $row['soil_moisture_value'] ; ?>
+                        <!--<?php echo $row['soil_moisture_value'] ; ?>-->
+                        <?php echo $soil ?>
                     </span><span class="unit">%</span></p>
                 <p style="font-weight: bold; font-size: 18px;">Soil Moisture </p>
             </div>
         </div>
     </div>
 
-    <p style="margin-left: 30px; margin-top: 30px;"> <b>Note:</b> The current values are from sensor compared to system standard </p>
+    <div style="width: 80%; margin: auto; position: relative ">
+    <div class='tableauPlaceholder' id='viz1679369617989' style='position: relative ; margin-top:30px; width:80%'>
+        <noscript><a href='#'><img
+                    alt='Sensor Monitor in Reality '
+                    src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;Sensor_monitor&#47;Sheet1&#47;1_rss.png'
+                    style='border: none' /></a></noscript><object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+            <param name='embed_code_version' value='3' />
+            <param name='site_root' value='' />
+            <param name='name' value='Sensor_monitor&#47;Sheet1' />
+            <param name='tabs' value='no' />
+            <param name='toolbar' value='yes' />
+            <param name='static_image'
+                value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Se&#47;Sensor_monitor&#47;Sheet1&#47;1.png' />
+            <param name='animate_transition' value='yes' />
+            <param name='display_static_image' value='yes' />
+            <param name='display_spinner' value='yes' />
+            <param name='display_overlay' value='yes' />
+            <param name='display_count' value='yes' />
+            <param name='language' value='en-US' />
+            <param name='filter' value='publish=yes' />
+        </object></div>
+    <script
+        type='text/javascript'>  
+        var divElement = document.getElementById('viz1679369617989'); 
+        var vizElement = divElement.getElementsByTagName('object')[0]; 
+        vizElement.style.width = '100%'; 
+        vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px'; 
+        var scriptElement = document.createElement('script'); 
+        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js'; 
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+    </script>
+    </div>
+
+    <p style="margin-left: 30px; margin-top: 30px;"> <b>Note:</b> The current values are from sensor compared to system
+        standard </p>
 
 </body>
